@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/aram/aram.iml" filepath="$PROJECT_DIR$/.idea/modules/aram/aram.iml" group="aram" />
+      <module fileurl="file://$PROJECT_DIR$/aram-applet.iml" filepath="$PROJECT_DIR$/aram-applet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/aram/aram_main.iml" filepath="$PROJECT_DIR$/.idea/modules/aram/aram_main.iml" group="aram" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/aram/aram_test.iml" filepath="$PROJECT_DIR$/.idea/modules/aram/aram_test.iml" group="aram" />
+    </modules>
+  </component>
+</project>

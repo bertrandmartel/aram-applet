@@ -1,0 +1,12 @@
+.gradle
+local.properties
+.idea/workspace.xml
+.idea/libraries
+.DS_Store
+/build
+app/src/main/obj
+app/src/main/libs
+*.iml
+app/build
+**/build/
+**/out/

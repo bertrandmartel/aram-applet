@@ -1,0 +1,58 @@
+apply plugin: 'javacard'
+
+def packageAid = 'A0:00:00:01:51:41:43:4C'
+def appletAid = 'A0:00:00:01:51:41:43:4C:00'
+
+javacard {
+
+    config {
+        jckit '../oracle_javacard_sdks/jc221_kit'
+        cap {
+            packageName 'fr.bmartel.aram'
+            version '0.1'
+            aid packageAid
+            output 'applet.cap'
+            applet {
+                className 'fr.bmartel.aram.AccessRuleMaster'
+                aid appletAid
+            }
+            dependencies {
+                remote 'fr.bmartel:gplatform:2.1.1'
+            }
+        }
+    }
+
+    scripts {
+        script {
+            name 'select'
+            apdu '00:A4:04:00:09' + appletAid + ':00'
+        }
+
+        script {
+            name 'store'
+            apdu '80:E2:90:00:33:F0:31:E2:2F:E1:28:4F:10:D2:76:00:01:18:00:02:FF:49:50:25:89:C0:01:9B:01:C1:14:01:02:03:04:05:06:07:08:09:0A:0B:0C:0D:0E:0F:10:11:12:13:14:E3:03:D0:01:01:00:'
+        }
+        script {
+            name 'list'
+            apdu '80:CA:FF:40:00'
+        }
+        script {
+            name 'delete'
+            apdu '80:E2:90:00:14:F1:12:4F:10:D2:76:00:01:18:00:02:FF:49:50:25:89:C0:01:9B:01:00'
+        }
+
+        task {
+            name 'store'
+            scripts 'select', 'store', 'list'
+        }
+
+        task {
+            name 'list'
+            scripts 'select', 'list'
+        }
+        task {
+            name 'delete'
+            scripts 'select', 'delete', 'list'
+        }
+    }
+}
