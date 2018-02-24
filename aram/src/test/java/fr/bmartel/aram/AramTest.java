@@ -35,8 +35,7 @@ import javax.smartcardio.CommandAPDU;
 import javax.smartcardio.ResponseAPDU;
 import java.util.List;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
 /**
  * Testing ARAM applet.
@@ -372,6 +371,9 @@ public class AramTest extends JavaCardTest {
     @Test
     public void refreshTag() throws CardException {
         byte[] req1 = sendGetRefreshTag(new byte[]{}, 0x9000).getData();
+        assertEquals(11, req1.length);
+        assertArrayEquals(new byte[]{(byte) 0xDF,0x20}, new byte[]{req1[0],req1[1]});
+        assertEquals(8, req1[2]);
         byte[] req2 = sendGetRefreshTag(new byte[]{}, 0x9000).getData();
         assertArrayEquals(req1, req2);
         updateRefreshTag();
