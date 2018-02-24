@@ -77,7 +77,7 @@ public class AccessRuleMaster extends Applet implements Application {
 
         byte[] buffer = apdu.getBuffer();
 
-        if (buffer[ISO7816.OFFSET_CLA] != (byte) 0x80) {
+        if (((byte) (buffer[ISO7816.OFFSET_CLA] & (byte) 0xFC)) != (byte) 0x80 ) {
             ISOException.throwIt(ISO7816.SW_CLA_NOT_SUPPORTED);
         }
 
@@ -216,8 +216,12 @@ public class AccessRuleMaster extends Applet implements Application {
 
         byte[] buf = APDU.getCurrentAPDUBuffer();
 
-        Util.arrayCopy(refreshTag, (short) 0, buf, (short) 0, (short) 8);
-        APDU.getCurrentAPDU().setOutgoingAndSend((short) 0, (short) 8);
+        buf[0] = (byte) 0xDF;
+        buf[1] = (byte) 0x20;
+        buf[2] = (byte) 8;
+
+        Util.arrayCopy(refreshTag, (short) 0, buf, (short) 3, (short) 8);
+        APDU.getCurrentAPDU().setOutgoingAndSend((short) 0, (short) 11);
     }
 
     /**
