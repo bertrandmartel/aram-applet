@@ -176,11 +176,12 @@ public class RuleEntry {
      */
     static void deleteAll() {
         JCSystem.beginTransaction();
-        RuleEntry re = getFirst();
+
+        RuleEntry re = first;
         while (re != null) {
             re.remove();
             re.recycle();
-            re = re.getNext();
+            re = first;
         }
         JCSystem.commitTransaction();
     }
