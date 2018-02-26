@@ -171,6 +171,21 @@ public class RuleEntry {
     }
 
     /**
+     * delete all rules
+     *
+     */
+    static void deleteAll() {
+        JCSystem.beginTransaction();
+        RuleEntry re = getFirst();
+        while (re != null) {
+            re.remove();
+            re.recycle();
+            re = re.getNext();
+        }
+        JCSystem.commitTransaction();
+    }
+
+    /**
      * delete by aid.
      *
      * @param buf apdu buffer
