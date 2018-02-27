@@ -39,9 +39,9 @@ public class AccessRuleMaster extends Applet implements Application {
     public final static byte INS_STORE_DATA = (byte) 0xE2;
     public final static byte INS_GET_DATA = (byte) 0xCA;
 
-    public static short SIZE_AID = 16;
-    public static short SIZE_HASH = 20;
-    public static short SIZE_RULE = (short) (2 + (20 * 8));
+    public final static short SIZE_AID = 16;
+    public final static short SIZE_HASH = 20;
+    public final static short SIZE_RULE = (short) (2 + (20 * 8));
 
     /**
      * APDU data size.
