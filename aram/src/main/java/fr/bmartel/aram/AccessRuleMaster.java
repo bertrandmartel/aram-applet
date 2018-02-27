@@ -324,8 +324,10 @@ public class AccessRuleMaster extends Applet implements Application {
         short ofs = ISO7816.OFFSET_CDATA;
 
         checkTLV(buf, ofs, (byte) 0xF1, (short) (6 + RuleEntry.SIZE_AID + RuleEntry.SIZE_HASH + RuleEntry.SIZE_RULE));
-
-        if (buf[(short) (ofs + 2)] == (byte) 0x4F) {
+        if (buf[(short) (ofs + 1)] == 0) {
+            //delete all rules if length == 0
+            RuleEntry.deleteAll();
+        } else if (buf[(short) (ofs + 2)] == (byte) 0x4F) {
             //delete AID-REF-DO
             checkTLV(buf, (short) (ofs + 2), (byte) 0x4F, RuleEntry.SIZE_AID);
             short ofsAidRefDo = (short) (ofs + 2);
