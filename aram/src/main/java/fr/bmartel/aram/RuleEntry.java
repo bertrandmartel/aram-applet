@@ -172,18 +172,16 @@ public class RuleEntry {
 
     /**
      * delete all rules
-     *
      */
     static void deleteAll() {
-        JCSystem.beginTransaction();
-
         RuleEntry re = first;
         while (re != null) {
+            JCSystem.beginTransaction();
             re.remove();
             re.recycle();
+            JCSystem.commitTransaction();
             re = first;
         }
-        JCSystem.commitTransaction();
     }
 
     /**
@@ -194,14 +192,14 @@ public class RuleEntry {
      * @param len length of aid
      */
     static void deleteAid(byte[] buf, short ofs, byte len) {
-        JCSystem.beginTransaction();
         RuleEntry re = searchAid(buf, ofs, len);
         while (re != null) {
+            JCSystem.beginTransaction();
             re.remove();
             re.recycle();
+            JCSystem.commitTransaction();
             re = searchAid(buf, ofs, len);
         }
-        JCSystem.commitTransaction();
     }
 
     /**
@@ -214,14 +212,14 @@ public class RuleEntry {
      * @param hashLen length of the hash
      */
     static void deleteAidHash(byte[] buf, short aidOfs, byte aidLen, short hashOfs, byte hashLen) {
-        JCSystem.beginTransaction();
         RuleEntry re = searchAidHash(buf, aidOfs, aidLen, hashOfs, hashLen);
         while (re != null) {
+            JCSystem.beginTransaction();
             re.remove();
             re.recycle();
+            JCSystem.commitTransaction();
             re = searchAidHash(buf, aidOfs, aidLen, hashOfs, hashLen);
         }
-        JCSystem.commitTransaction();
     }
 
     /**
@@ -236,14 +234,14 @@ public class RuleEntry {
      * @param ruleLen length of tule
      */
     static void deleteAidHashRule(byte[] buf, short aidOfs, byte aidLen, short hashOfs, byte hashLen, short ruleOfs, byte ruleLen) {
-        JCSystem.beginTransaction();
         RuleEntry re = searchAidHashRule(buf, aidOfs, aidLen, hashOfs, hashLen, ruleOfs, ruleLen);
         while (re != null) {
+            JCSystem.beginTransaction();
             re.remove();
             re.recycle();
+            JCSystem.commitTransaction();
             re = searchAidHashRule(buf, aidOfs, aidLen, hashOfs, hashLen, ruleOfs, ruleLen);
         }
-        JCSystem.commitTransaction();
     }
 
     /**
