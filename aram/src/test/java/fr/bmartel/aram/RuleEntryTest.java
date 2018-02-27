@@ -350,6 +350,16 @@ public class RuleEntryTest {
     }
 
     @Test
+    public void deleteAllTest() throws NoSuchFieldException, IllegalAccessException {
+        addItem(AID_BASIC, HASH_BASIC, RULE_BASIC);
+        addItem(AID_BASIC1, HASH_BASIC1, RULE_BASIC1);
+        addItem(AID_BASIC2, HASH_BASIC2, RULE_BASIC2);
+        addItem(AID_BASIC3, HASH_BASIC3, RULE_BASIC3);
+        RuleEntry.deleteAll();
+        assertEquals("length after deletion", 0, getLength());
+    }
+
+    @Test
     public void deleteAidMultipleNonEmptyTest() throws NoSuchFieldException, IllegalAccessException {
         addItem(AID_BASIC1, HASH_BASIC, RULE_BASIC);
         addItem(AID_BASIC, HASH_BASIC1, RULE_BASIC1);

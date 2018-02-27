@@ -328,6 +328,14 @@ public class AramTest extends JavaCardTest {
     }
 
     @Test
+    public void deleteAll() throws CardException {
+        storeData(AramConstTest.VALID_REF_AR_DO);
+        storeData(AramConstTest.VALID_REF_AR_DO_CLONE);
+        deleteData(new byte[]{});
+        sendGetAll(new byte[]{}, 0x9000, AramConstTest.GET_DATA_EMPTY_RESPONSE);
+    }
+
+    @Test
     public void deleteByAid() throws CardException {
         storeData(AramConstTest.VALID_REF_AR_DO);
         sendGetAll(new byte[]{}, 0x9000, TestUtils.checkList(0, AramConstTest.VALID_REF_AR_DO));
