@@ -33,10 +33,6 @@ import javacard.framework.Util;
  */
 public class RuleEntry {
 
-    public static short SIZE_AID = 16;
-    public static short SIZE_HASH = 20;
-    public static short SIZE_RULE = (short) (2 + (20 * 8));
-
     private RuleEntry next;
     private static RuleEntry first;
     private static RuleEntry deleted;
@@ -53,9 +49,9 @@ public class RuleEntry {
      * init properties.
      */
     private RuleEntry() {
-        aid = new byte[SIZE_AID];
-        hash = new byte[SIZE_HASH];
-        rule = new byte[SIZE_RULE];
+        aid = new byte[AccessRuleMaster.SIZE_AID];
+        hash = new byte[AccessRuleMaster.SIZE_HASH];
+        rule = new byte[AccessRuleMaster.SIZE_RULE];
         next = first;
         first = this;
     }

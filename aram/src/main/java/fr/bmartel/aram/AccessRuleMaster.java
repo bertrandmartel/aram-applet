@@ -39,6 +39,10 @@ public class AccessRuleMaster extends Applet implements Application {
     public final static byte INS_STORE_DATA = (byte) 0xE2;
     public final static byte INS_GET_DATA = (byte) 0xCA;
 
+    public static short SIZE_AID = 16;
+    public static short SIZE_HASH = 20;
+    public static short SIZE_RULE = (short) (2 + (20 * 8));
+
     /**
      * APDU data size.
      */
@@ -188,10 +192,10 @@ public class AccessRuleMaster extends Applet implements Application {
 
         short ofs = ISO7816.OFFSET_CDATA;
 
-        checkTLV(buf, (short) (ofs + 1), (byte) 0xE1, (short) (4 + RuleEntry.SIZE_AID + RuleEntry.SIZE_HASH));
+        checkTLV(buf, (short) (ofs + 1), (byte) 0xE1, (short) (4 + AccessRuleMaster.SIZE_AID + AccessRuleMaster.SIZE_HASH));
         short ofsAidRefDo = (short) (ofs + 3);
-        short ofsHashRefDo = checkTLV(buf, (short) (ofs + 3), (byte) 0x4F, (RuleEntry.SIZE_AID));
-        checkTLV(buf, ofsHashRefDo, (byte) 0xC1, (RuleEntry.SIZE_HASH));
+        short ofsHashRefDo = checkTLV(buf, (short) (ofs + 3), (byte) 0x4F, (AccessRuleMaster.SIZE_AID));
+        checkTLV(buf, ofsHashRefDo, (byte) 0xC1, (AccessRuleMaster.SIZE_HASH));
 
         RuleEntry re = RuleEntry.searchAidHash(buf,
                 (short) (ofsAidRefDo + 2), buf[(short) (ofsAidRefDo + 1)],
@@ -300,13 +304,13 @@ public class AccessRuleMaster extends Applet implements Application {
 
         short ofs = ISO7816.OFFSET_CDATA;
 
-        checkTLV(buf, ofs, (byte) 0xF0, (short) (8 + RuleEntry.SIZE_AID + RuleEntry.SIZE_HASH + RuleEntry.SIZE_RULE));
-        checkTLV(buf, (short) (ofs + 2), (byte) 0xE2, (short) (6 + RuleEntry.SIZE_AID + RuleEntry.SIZE_HASH + RuleEntry.SIZE_RULE));
-        checkTLV(buf, (short) (ofs + 4), (byte) 0xE1, (short) (4 + RuleEntry.SIZE_AID + RuleEntry.SIZE_HASH));
+        checkTLV(buf, ofs, (byte) 0xF0, (short) (8 + AccessRuleMaster.SIZE_AID + AccessRuleMaster.SIZE_HASH + AccessRuleMaster.SIZE_RULE));
+        checkTLV(buf, (short) (ofs + 2), (byte) 0xE2, (short) (6 + AccessRuleMaster.SIZE_AID + AccessRuleMaster.SIZE_HASH + AccessRuleMaster.SIZE_RULE));
+        checkTLV(buf, (short) (ofs + 4), (byte) 0xE1, (short) (4 + AccessRuleMaster.SIZE_AID + AccessRuleMaster.SIZE_HASH));
         short ofsAidRefDo = (short) (ofs + 6);
-        short ofsHashRefDo = checkTLV(buf, (short) (ofs + 6), (byte) 0x4F, (RuleEntry.SIZE_AID));
-        short ofsArDo = checkTLV(buf, ofsHashRefDo, (byte) 0xC1, (RuleEntry.SIZE_HASH));
-        checkTLV(buf, ofsArDo, (byte) 0xE3, (RuleEntry.SIZE_RULE));
+        short ofsHashRefDo = checkTLV(buf, (short) (ofs + 6), (byte) 0x4F, (AccessRuleMaster.SIZE_AID));
+        short ofsArDo = checkTLV(buf, ofsHashRefDo, (byte) 0xC1, (AccessRuleMaster.SIZE_HASH));
+        checkTLV(buf, ofsArDo, (byte) 0xE3, (AccessRuleMaster.SIZE_RULE));
 
         JCSystem.beginTransaction();
         RuleEntry pe = RuleEntry.getInstance();
@@ -323,13 +327,13 @@ public class AccessRuleMaster extends Applet implements Application {
 
         short ofs = ISO7816.OFFSET_CDATA;
 
-        checkTLV(buf, ofs, (byte) 0xF1, (short) (6 + RuleEntry.SIZE_AID + RuleEntry.SIZE_HASH + RuleEntry.SIZE_RULE));
+        checkTLV(buf, ofs, (byte) 0xF1, (short) (6 + AccessRuleMaster.SIZE_AID + AccessRuleMaster.SIZE_HASH + AccessRuleMaster.SIZE_RULE));
         if (buf[(short) (ofs + 1)] == 0) {
             //delete all rules if length == 0
             RuleEntry.deleteAll();
         } else if (buf[(short) (ofs + 2)] == (byte) 0x4F) {
             //delete AID-REF-DO
-            checkTLV(buf, (short) (ofs + 2), (byte) 0x4F, RuleEntry.SIZE_AID);
+            checkTLV(buf, (short) (ofs + 2), (byte) 0x4F, AccessRuleMaster.SIZE_AID);
             short ofsAidRefDo = (short) (ofs + 2);
 
             RuleEntry re = RuleEntry.searchAid(buf, (short) (ofsAidRefDo + 2), buf[(short) (ofsAidRefDo + 1)]);
@@ -338,11 +342,11 @@ public class AccessRuleMaster extends Applet implements Application {
 
             RuleEntry.deleteAid(buf, (short) (ofsAidRefDo + 2), buf[(short) (ofsAidRefDo + 1)]);
         } else if (buf[(short) (ofs + 2)] == (byte) 0xE1) {
-            checkTLV(buf, (short) (ofs + 2), (byte) 0xE1, (short) (4 + RuleEntry.SIZE_AID + RuleEntry.SIZE_HASH));
+            checkTLV(buf, (short) (ofs + 2), (byte) 0xE1, (short) (4 + AccessRuleMaster.SIZE_AID + AccessRuleMaster.SIZE_HASH));
             //delete REF-DO
             short ofsAidRefDo = (short) (ofs + 4);
-            short ofsHashRefDo = checkTLV(buf, (short) (ofs + 4), (byte) 0x4F, (RuleEntry.SIZE_AID));
-            checkTLV(buf, ofsHashRefDo, (byte) 0xC1, (RuleEntry.SIZE_HASH));
+            short ofsHashRefDo = checkTLV(buf, (short) (ofs + 4), (byte) 0x4F, (AccessRuleMaster.SIZE_AID));
+            checkTLV(buf, ofsHashRefDo, (byte) 0xC1, (AccessRuleMaster.SIZE_HASH));
 
             RuleEntry re = RuleEntry.searchAidHash(buf,
                     (short) (ofsAidRefDo + 2), buf[(short) (ofsAidRefDo + 1)],
@@ -356,12 +360,12 @@ public class AccessRuleMaster extends Applet implements Application {
                     (short) (ofsHashRefDo + 2), buf[(short) (ofsHashRefDo + 1)]);
         } else if (buf[(short) (ofs + 2)] == (byte) 0xE2) {
             //delete REF-AR-DO
-            checkTLV(buf, (short) (ofs + 2), (byte) 0xE2, (short) (6 + RuleEntry.SIZE_AID + RuleEntry.SIZE_HASH + RuleEntry.SIZE_RULE));
-            checkTLV(buf, (short) (ofs + 4), (byte) 0xE1, (short) (4 + RuleEntry.SIZE_AID + RuleEntry.SIZE_HASH));
+            checkTLV(buf, (short) (ofs + 2), (byte) 0xE2, (short) (6 + AccessRuleMaster.SIZE_AID + AccessRuleMaster.SIZE_HASH + AccessRuleMaster.SIZE_RULE));
+            checkTLV(buf, (short) (ofs + 4), (byte) 0xE1, (short) (4 + AccessRuleMaster.SIZE_AID + AccessRuleMaster.SIZE_HASH));
             short ofsAidRefDo = (short) (ofs + 6);
-            short ofsHashRefDo = checkTLV(buf, (short) (ofs + 6), (byte) 0x4F, (RuleEntry.SIZE_AID));
-            short ofsArDo = checkTLV(buf, ofsHashRefDo, (byte) 0xC1, (RuleEntry.SIZE_HASH));
-            checkTLV(buf, ofsArDo, (byte) 0xE3, (RuleEntry.SIZE_RULE));
+            short ofsHashRefDo = checkTLV(buf, (short) (ofs + 6), (byte) 0x4F, (AccessRuleMaster.SIZE_AID));
+            short ofsArDo = checkTLV(buf, ofsHashRefDo, (byte) 0xC1, (AccessRuleMaster.SIZE_HASH));
+            checkTLV(buf, ofsArDo, (byte) 0xE3, (AccessRuleMaster.SIZE_RULE));
 
             if (buf[(short) (ofsArDo + 1)] > 2) {
                 RuleEntry re = RuleEntry.searchAidHashRule(buf,

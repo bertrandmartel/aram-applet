@@ -171,11 +171,11 @@ public class RuleEntryTest {
      */
     private void checkDataSize(RuleEntry entry) throws IllegalAccessException, NoSuchFieldException {
         assertNotNull("aid array not null", getByteArray(entry, "aid"));
-        assertEquals("aid array size check", getByteArray(entry, "aid").length, RuleEntry.SIZE_AID);
+        assertEquals("aid array size check", getByteArray(entry, "aid").length, AccessRuleMaster.SIZE_AID);
         assertNotNull("hash array not null", getByteArray(entry, "hash"));
-        assertEquals("hash array size check", getByteArray(entry, "hash").length, RuleEntry.SIZE_HASH);
+        assertEquals("hash array size check", getByteArray(entry, "hash").length, AccessRuleMaster.SIZE_HASH);
         assertNotNull("rule array not null", getByteArray(entry, "rule"));
-        assertEquals("rule array size check", getByteArray(entry, "rule").length, RuleEntry.SIZE_RULE);
+        assertEquals("rule array size check", getByteArray(entry, "rule").length, AccessRuleMaster.SIZE_RULE);
     }
 
     private void addItem(byte[] aid, byte[] hash, byte[] rule) throws NoSuchFieldException, IllegalAccessException {
@@ -195,9 +195,9 @@ public class RuleEntryTest {
 
         assertEquals("check aid length getter", 0, entry.getAidLength());
 
-        assertEquals("check empty rule length", 0, entry.getRule(new byte[RuleEntry.SIZE_RULE], (short) 0));
-        assertEquals("check empty hash length", 0, entry.getHash(new byte[RuleEntry.SIZE_HASH], (short) 0));
-        assertEquals("check empty aid length", 0, entry.getAid(new byte[RuleEntry.SIZE_AID], (short) 0));
+        assertEquals("check empty rule length", 0, entry.getRule(new byte[AccessRuleMaster.SIZE_RULE], (short) 0));
+        assertEquals("check empty hash length", 0, entry.getHash(new byte[AccessRuleMaster.SIZE_HASH], (short) 0));
+        assertEquals("check empty aid length", 0, entry.getAid(new byte[AccessRuleMaster.SIZE_AID], (short) 0));
 
         assertEquals("check rule length via reflection", 0, getRuleLength(entry));
         assertEquals("check hash length via reflection", 0, getHashLength(entry));
